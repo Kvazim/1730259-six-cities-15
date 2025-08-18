@@ -1,12 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Extra } from '../types/state';
-import { FullOffer, Offer, Offers } from '../types/offers';
-import { APIRoute } from '../const';
-import { AuthData } from '../types/auth-data';
-import { UserData } from '../types/user-data';
+import { FullOffer, Offer, Offers } from '../shared/types/offers';
+import { APIRoute } from '../shared/lib/const/const';
+import { AuthData } from '../shared/types/auth-data';
+import { UserData } from '../shared/types/user-data';
 import { dropToken, saveToken } from '../services/token';
-import { NewReview, Review, Reviews } from '../types/reviews';
-import { UpdateFavoriteStatus } from '../types/update-favorite-status';
+import { NewReview, Review, Reviews } from '../shared/types/reviews';
+import { UpdateFavoriteStatus } from '../shared/types/update-favorite-status';
+import { Extra } from '../shared/types/state';
 
 export const fetchOffersAction = createAsyncThunk<Offers, undefined, Extra>(
   'data/fetchOffers',

@@ -1,7 +1,7 @@
 import { FormEvent, memo, useRef, useState } from 'react';
-import MemoizedLocationItem from '../../components/location-item/location-item';
-import { getRandomArrayItem, validateLoginAndEmail } from '../../utils/utils';
-import { Cities } from '../../const';
+import MemoizedLocationItem from '../../shared/ui/location-item/location-item';
+import { getRandomArrayItem, validateLoginAndEmail } from '../../shared/lib/utils/utils';
+import { Cities } from '../../shared/lib/const/const';
 import { Helmet } from 'react-helmet-async';
 import { useAppDispatch } from '../../hooks';
 import { loginAction } from '../../store/api-actions';

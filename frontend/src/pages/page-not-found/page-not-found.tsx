@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import './style.css';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute } from '../../shared/lib/const/const';
 
 function PageNotFound(): JSX.Element {
   return (

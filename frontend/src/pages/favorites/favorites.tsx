@@ -1,12 +1,12 @@
-import MemoizedLogo from '../../components/logo/logo';
+import MemoizedLogo from '../../shared/ui/logo/logo';
 import { Helmet } from 'react-helmet-async';
 import cn from 'classnames';
-import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
-import MemoizedFavoritesList from '../../components/favorites-list/favorites-list';
+import FavoritesEmpty from '../../shared/ui/favorites-empty/favorites-empty';
+import MemoizedFavoritesList from '../../widgest/favorites-list/favorites-list';
 import { useAppSelector } from '../../hooks';
 import { getFavoriteLoadingStatus, getFavoritsData } from '../../store/favorite-process/favorite-process.selectors';
-import { Status } from '../../const';
-import LoadingScreen from '../../components/loading-screen/loading-screen';
+import { Status } from '../../shared/lib/const/const';
+import LoadingScreen from '../../shared/ui/loading-screen/loading-screen';
 
 function Favorites(): JSX.Element {
   const favoriteOffers = useAppSelector(getFavoritsData);

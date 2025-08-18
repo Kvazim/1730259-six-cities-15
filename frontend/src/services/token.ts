@@ -1,4 +1,4 @@
-import { AUTH_TOKEN_KEY_NAME } from '../const';
+import { AUTH_TOKEN_KEY_NAME } from '../shared/lib/const/const';
 import { Token } from '../types/token';
 
 

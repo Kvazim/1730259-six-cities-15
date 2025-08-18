@@ -1,17 +1,17 @@
-import MemoizedMap from '../../components/map/map';
-import MemoizedPlaceCard from '../../components/place-card/place-card';
-import MemoizedPlacesSorting from '../../components/places-sorting/places-sorting';
-import MemoizedTabs from '../../components/tabs/tabs';
+import MemoizedMap from '../../widgest/map/map';
+import MemoizedPlaceCard from '../../shared/ui/place-card/place-card';
+import MemoizedPlacesSorting from '../../features/places-sorting/places-sorting';
+import MemoizedTabs from '../../widgest/tabs/tabs';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { CITY, Cities, DEFAULT_CITY, DEFAULT_ONE, DEFAULT_SORT, SORT_TYPE, SortType } from '../../const';
-import { capitalize, getCurrentOffers, getDataToMap, sortingType } from '../../utils/utils';
+import { CITY, Cities, DEFAULT_CITY, DEFAULT_ONE, DEFAULT_SORT, SORT_TYPE, SortType } from '../../shared/lib/const/const';
+import { capitalize, getCurrentOffers, getDataToMap, sortingType } from '../../shared/lib/utils/utils';
 import { memo, useCallback, useEffect, useMemo } from 'react';
 import cn from 'classnames';
-import MainEmpty from '../../components/main-empty/main-empty';
-import { MyLocation } from '../../types/my-location';
+import MainEmpty from '../../shared/ui/main-empty/main-empty';
 import { useAppSelector } from '../../hooks';
 import { Helmet } from 'react-helmet-async';
 import { getOffersData } from '../../store/offer-process/offer-process.selectors';
+import { MyLocation } from '../../shared/types/my-location';
 
 function Main(): JSX.Element {
   const offers = useAppSelector(getOffersData);

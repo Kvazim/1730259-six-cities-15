@@ -1,5 +1,5 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import { NameSpace } from '../const';
+import { NameSpace } from '../shared/lib/const/const';
 import { userProcess } from './user-process/user-process.slice';
 import { offersData } from './offer-process/offer-process.slice';
 import { favoritesData } from './favorite-process/favorite-process.slice';

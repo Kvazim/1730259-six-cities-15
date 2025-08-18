@@ -1,6 +1,6 @@
-import { NameSpace, Status } from '../../const';
-import { FullOffer, Offer, Offers } from '../../types/offers';
-import { State } from '../../types/state';
+import { NameSpace, Status } from '../../shared/lib/const/const';
+import { FullOffer, Offer, Offers } from '../../shared/types/offers';
+import { State } from '../../shared/types/state';
 
 export const getOffersData = (state: State): Offers => state[NameSpace.Offers].offers;
 

@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { BASE_URL, DEFAULT_DELAY_TIME, REQUEST_TIMEOUT } from '../const';
+import { BASE_URL, DEFAULT_DELAY_TIME, REQUEST_TIMEOUT } from '../shared/lib/const/const';
 import { getToken } from './token';
 import { StatusCodes } from 'http-status-codes';
 import { toast } from 'react-toastify';
