@@ -1,6 +1,5 @@
 import { AUTH_TOKEN_KEY_NAME } from '../shared/lib/const/const';
-import { Token } from '../types/token';
-
+import { Token } from '../shared/types/token';
 
 export const getToken = (): Token => {
   const token = localStorage.getItem(AUTH_TOKEN_KEY_NAME);

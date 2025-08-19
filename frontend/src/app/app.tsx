@@ -1,5 +1,5 @@
 import { HelmetProvider } from 'react-helmet-async';
-import { Route, Routes } from 'react-router-dom';
+import { Route, RouterProvider, Routes } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus, Status } from '../shared/lib/const/const';
 import PageNotFound from '../pages/page-not-found/page-not-found';
 import Favorites from '../pages/favorites/favorites';
@@ -13,10 +13,11 @@ import ErrorLoadSreen from '../entities/error-load-screen/error-load-screen';
 import MemoizedOfferPage from '../pages/offer-page/offer-page';
 import MemoizedLogin from '../pages/login/login';
 import MemoizedMain from '../pages/main/main';
-import Layout from '../widgest/layout/layout';
-import PrivateRoute from '../components/private-route/private-route';
-import HistoryRouter from '../components/history-route/history-route';
-import browserHistory from '../browser-history';
+import Layout from './layout/layout';
+import PrivateRoute from './routes/private-route';
+import HistoryRouter from './routes/history-route';
+import browserHistory from './routes/browser-history';
+import { routes } from './routes/routes';
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -43,7 +44,10 @@ function App(): JSX.Element {
 
   return (
     <HelmetProvider>
-      <HistoryRouter history={browserHistory}>
+      <RouterProvider
+        router={routes}
+      />
+      {/* <HistoryRouter history={browserHistory}>
         <Routes>
           <Route path={AppRoute.Root} element={<Layout />}>
             <Route index element={<MemoizedMain />} />
@@ -67,7 +71,7 @@ function App(): JSX.Element {
             <Route path="*" element={<PageNotFound />} />
           </Route>
         </Routes>
-      </HistoryRouter>
+      </HistoryRouter> */}
     </HelmetProvider>
   );
 }

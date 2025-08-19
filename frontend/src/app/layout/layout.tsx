@@ -1,8 +1,7 @@
 import cn from 'classnames';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, ScrollRestoration, useLocation } from 'react-router-dom';
 import { AppRoute } from '../../shared/lib/const/const';
-import MemoizedHeader from '../header/header';
-import ScrollToTop from '../../features/scroll-to-top/scroll-to-top';
+import MemoizedHeader from '../../widgest/header/header';
 import { useAppSelector } from '../../hooks';
 import { getFavoritsData } from '../../store/favorite-process/favorite-process.selectors';
 import { useMemo } from 'react';
@@ -20,7 +19,7 @@ function Layout(): JSX.Element {
 
   return (
     <div className={classLink} >
-      <ScrollToTop />
+      <ScrollRestoration />
       <MemoizedHeader pathname={pathname} />
       <Outlet />
     </div>
