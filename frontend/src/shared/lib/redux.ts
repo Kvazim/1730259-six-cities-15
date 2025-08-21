@@ -3,12 +3,17 @@ import {
   buildCreateSlice,
   combineSlices,
   createAsyncThunk,
+  createListenerMiddleware,
   createSelector,
   ThunkAction,
   UnknownAction
 } from '@reduxjs/toolkit';
 import { appStore, extraArgument } from '../../app/app-store';
 import { useDispatch, useSelector, useStore } from 'react-redux';
+import { createDynamicMiddleware } from '@reduxjs/toolkit/react';
+
+export const listenerMiddleware = createListenerMiddleware();
+const dinamicMiddleware = createDynamicMiddleware();
 
 export const reducer = combineSlices();
 
@@ -22,6 +27,17 @@ export type AppThunk<R = void> = ThunkAction<
   UnknownAction
 >;
 export type ExtraArgument = typeof extraArgument;
+export type MiddlewareApiConfig = {
+  state: AppState;
+  dispatch:AppDispatch;
+};
+
+const {
+  middleware,
+  addMiddleware,
+  withMiddleware,
+  createDispatchWithMiddlewareHook,
+} = dinamicMiddleware;
 
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
 export const useAppSelector = useSelector.withTypes<AppState>();
@@ -33,8 +49,13 @@ export const createAppAsynkThunk = createAsyncThunk.withTypes<{
   extra: typeof extraArgument;
 }>();
 
+export const addAppMiddleware = addMiddleware.withTypes<MiddlewareApiConfig>();
+export const withAppMiddleware = withMiddleware.withTypes<MiddlewareApiConfig>();
+export const createAppDispatchWithMiddlewareHook = createDispatchWithMiddlewareHook.withTypes<MiddlewareApiConfig>();
+export default middleware;
+
 export const createSlise = buildCreateSlice({
-  creators: { asyncThunk:asyncThunkCreator }
+  creators: { asyncThunk: asyncThunkCreator }
 });
 
 // @jedmao/redux-mock-store D

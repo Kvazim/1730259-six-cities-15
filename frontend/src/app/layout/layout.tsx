@@ -1,15 +1,16 @@
 import cn from 'classnames';
 import { Outlet, ScrollRestoration, useLocation } from 'react-router-dom';
 import { AppRoute } from '../../shared/lib/const/const';
-import MemoizedHeader from '../../widgest/header/header';
 import { useAppSelector } from '../../hooks';
 import { getFavoritsData } from '../../store/favorite-process/favorite-process.selectors';
 import { useMemo } from 'react';
 import { MyLocation } from '../../shared/types/my-location';
+import { MemoizedHeader } from '../../widgest';
 
-function Layout(): JSX.Element {
+export function Layout(): JSX.Element {
   const { pathname } = useLocation() as MyLocation;
-  const favoriteOffers = useAppSelector(getFavoritsData);
+  // const favoriteOffers = useAppSelector(getFavoritsData);
+  const favoriteOffers = []
   const classLink = useMemo(() =>
     cn('page',
       {'page--gray page--main' : pathname === AppRoute.Root},
@@ -25,5 +26,3 @@ function Layout(): JSX.Element {
     </div>
   );
 }
-
-export default Layout;

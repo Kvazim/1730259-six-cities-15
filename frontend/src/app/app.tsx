@@ -18,29 +18,32 @@ import PrivateRoute from './routes/private-route';
 import HistoryRouter from './routes/history-route';
 import browserHistory from './routes/browser-history';
 import { routes } from './routes/routes';
+import { useCheckAuthQuery } from '../entities/header-nav/model/user-api';
+import { appStore } from './app-store';
 
 function App(): JSX.Element {
-  const dispatch = useAppDispatch();
-  const isAuthChecked = useAppSelector(getAuthorizationStatus);
-  const isDataLoading = useAppSelector(getOffersLoadingStatus);
+  // const dispatch = useAppDispatch();
+  // const isAuthChecked = useAppSelector(getAuthorizationStatus);
+  // const isDataLoading = useAppSelector(getOffersLoadingStatus);
 
-  useEffect(() => {
-    if (isAuthChecked === AuthorizationStatus.Auth) {
-      dispatch(fetchFavoriteOffersAction());
-    }
-  }, [dispatch, isAuthChecked]);
+  
+  // useEffect(() => {
+  //   if (isAuthChecked === AuthorizationStatus.Auth) {
+  //     dispatch(fetchFavoriteOffersAction());
+  //   }
+  // }, [dispatch, isAuthChecked]);
 
-  if (isAuthChecked === AuthorizationStatus.Unknown || isDataLoading === Status.Loading) {
-    return (
-      <LoadingScreen />
-    );
-  }
+  // if (isAuthChecked === AuthorizationStatus.Unknown || isDataLoading === Status.Loading) {
+  //   return (
+  //     <LoadingScreen />
+  //   );
+  // }
 
-  if (isDataLoading === Status.Failed) {
-    return (
-      <ErrorLoadSreen onButtonDispatchClick={fetchOffersAction} />
-    );
-  }
+  // if (isDataLoading === Status.Failed) {
+  //   return (
+  //     <ErrorLoadSreen onButtonDispatchClick={fetchOffersAction} />
+  //   );
+  // }
 
   return (
     <HelmetProvider>

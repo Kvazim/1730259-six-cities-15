@@ -1,23 +1,24 @@
 import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../shared/lib/const/const';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { logOutAction } from '../../store/api-actions';
 import { memo, useCallback } from 'react';
-import { getAuthorizationStatus, getUserData } from '../../store/user-process/user-process.selectors';
-import { getFavoritsData } from '../../store/favorite-process/favorite-process.selectors';
+import { useAppSelector } from '../../shared/lib/redux';
+import { userSlicce } from './model/user.slice';
+import { useCheckAuthQuery, useLogoutMutation } from './model/user-api';
 
 function HeaderNav(): JSX.Element {
-  const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const favoriteOffers = useAppSelector(getFavoritsData);
-  const userData = useAppSelector(getUserData);
+  const {data} = useCheckAuthQuery();
+  const [ logout, { isLoading } ] = useLogoutMutation();
+
+  const authorizationStatus = useAppSelector(userSlicce.selectors.authStatus);
+
+  const favoriteOffers = [];
 
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
-
+  console.log('a')
   const handleClickLogout = useCallback((evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     evt.preventDefault();
-    dispatch(logOutAction());
-  }, [dispatch]);
+    logout();
+  }, [logout]);
 
   return (
     <nav className="header__nav">
@@ -26,7 +27,7 @@ function HeaderNav(): JSX.Element {
           <Link className="header__nav-link header__nav-link--profile" to={isAuth ? AppRoute.Favorites : AppRoute.Login}>
             <div className="header__avatar-wrapper user__avatar-wrapper"
               style={{
-                backgroundImage: `url(${userData?.avatarUrl ?? '../img/avatar.svg'})`,
+                backgroundImage: `url(${data?.avatarUrl ?? '../img/avatar.svg'})`,
                 borderRadius: '50%'
               }}
             >
@@ -35,7 +36,7 @@ function HeaderNav(): JSX.Element {
               isAuth
                 ?
                 <>
-                  <span className="header__user-name user__name">{userData?.email}</span>
+                  <span className="header__user-name user__name">{data?.email}</span>
                   <span className="header__favorite-count">{favoriteOffers.length}</span>
                 </>
                 :
@@ -47,7 +48,7 @@ function HeaderNav(): JSX.Element {
           isAuth &&
             <li className="header__nav-item">
               <a className="header__nav-link" href='#todo' onClick={handleClickLogout}>
-                <span className="header__signout">Sign out</span>
+                <span className="header__signout">{isLoading ? 'out...' : 'Sign out'}</span>
               </a>
             </li>
         }
@@ -56,6 +57,4 @@ function HeaderNav(): JSX.Element {
   );
 }
 
-const MemoizedHeaderNav = memo(HeaderNav);
-
-export default MemoizedHeaderNav;
+export const MemoizedHeaderNav = memo(HeaderNav);

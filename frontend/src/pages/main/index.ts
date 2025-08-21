@@ -1,0 +1,1 @@
+export { MemoizedMain } from './main';

@@ -3,14 +3,13 @@ import MemoizedLocationItem from '../../shared/ui/location-item/location-item';
 import { getRandomArrayItem, validateLoginAndEmail } from '../../shared/lib/utils/utils';
 import { Cities } from '../../shared/lib/const/const';
 import { Helmet } from 'react-helmet-async';
-import { useAppDispatch } from '../../hooks';
-import { loginAction } from '../../store/api-actions';
 import { toast } from 'react-toastify';
+import { useLoginMutation } from '../../entities/header-nav/model/user-api';
 
 function Login():JSX.Element {
   const formRef = useRef(null);
   const [randomCity,] = useState(getRandomArrayItem<Cities>(Object.values(Cities)));
-  const dispatch = useAppDispatch();
+  const [login, { isLoading }] = useLoginMutation();
 
   const handleFormSubit = (evt: FormEvent) => {
     evt.preventDefault();
@@ -22,7 +21,7 @@ function Login():JSX.Element {
         const email = formData.get('email') as string;
         const password = formData.get('password') as string;
 
-        dispatch(loginAction({email, password}));
+        login({email, password});
       } else {
         toast.warn('Пароль должен содержать минимум одну цифру и латинскую букву');
       }
@@ -59,7 +58,7 @@ function Login():JSX.Element {
                 required
               />
             </div>
-            <button className="login__submit form__submit button" type="submit">Sign in</button>
+            <button className="login__submit form__submit button" disabled={isLoading} type="submit">Sign in</button>
           </form>
         </section>
         <section className="locations locations--login locations--current">
@@ -72,4 +71,4 @@ function Login():JSX.Element {
 
 const MemoizedLogin = memo(Login);
 
-export default MemoizedLogin;
+export { MemoizedLogin };

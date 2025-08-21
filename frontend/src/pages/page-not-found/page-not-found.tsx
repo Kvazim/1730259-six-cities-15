@@ -3,7 +3,7 @@ import './style.css';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../shared/lib/const/const';
 
-function PageNotFound(): JSX.Element {
+export function PageNotFound(): JSX.Element {
   return (
     <div className="body">
       <Helmet>
@@ -18,5 +18,3 @@ function PageNotFound(): JSX.Element {
     </div>
   );
 }
-
-export default PageNotFound;

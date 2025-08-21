@@ -1,6 +1,6 @@
 import MemoizedLogo from '../../shared/ui/logo/logo';
 import { AppRoute } from '../../shared/lib/const/const';
-import MemoizedHeaderNav from '../../entities/header-nav/header-nav';
+import { MemoizedHeaderNav } from '../../entities/header-nav/header-nav';
 import { memo, useMemo } from 'react';
 
 type HeaderProps = {
@@ -24,6 +24,4 @@ function Header({pathname}: HeaderProps): JSX.Element {
   );
 }
 
-const MemoizedHeader = memo(Header);
-
-export default MemoizedHeader;
+export const MemoizedHeader = memo(Header);

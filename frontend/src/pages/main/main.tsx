@@ -99,4 +99,4 @@ function Main(): JSX.Element {
 
 const MemoizedMain = memo(Main);
 
-export default MemoizedMain;
+export {MemoizedMain};
