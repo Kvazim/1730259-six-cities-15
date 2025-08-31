@@ -1,5 +1,5 @@
-import { useAppDispatch } from '../../hooks';
-import { AppThunk } from '../../shared/types/state';
+import { useAppDispatch } from '../../lib/redux';
+import { AppThunk } from '../../types/state';
 import './style.css';
 
 
@@ -13,7 +13,7 @@ function ErrorLoadSreen({onButtonDispatchClick}: ErrorRewiewsSreenProps):JSX.Ele
     <div className='error-review'>
       <p>Ошибка загрузки данных</p>
       <button onClick={() => {
-        dispatch(onButtonDispatchClick());
+        dispatch(onButtonDispatchClick);
       }}
       >
         Попробовать ещё раз

@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import { toast } from 'react-toastify';
 import { useLoginMutation } from '../../entities/header-nav/model/user-api';
 
-function Login():JSX.Element {
+function Login() {
   const formRef = useRef(null);
   const [randomCity,] = useState(getRandomArrayItem<Cities>(Object.values(Cities)));
   const [login, { isLoading }] = useLoginMutation();
@@ -21,7 +21,7 @@ function Login():JSX.Element {
         const email = formData.get('email') as string;
         const password = formData.get('password') as string;
 
-        login({email, password});
+        login({email, password}).unwrap();
       } else {
         toast.warn('Пароль должен содержать минимум одну цифру и латинскую букву');
       }

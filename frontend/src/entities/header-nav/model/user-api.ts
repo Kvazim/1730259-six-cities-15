@@ -1,28 +1,15 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { APIRoute, BASE_URL } from '../../../shared/lib/const/const';
-import { dropToken, getToken, saveToken, Token } from './token';
+import { APIRoute, NameSpace } from '../../../shared/lib/const/const';
 import { UserData } from '../../../shared/types/user-data';
 import { addAppMiddleware, reducer } from '../../../shared/lib/redux';
 import { AuthData } from '../../../shared/types/auth-data';
+import { dropToken, saveToken } from '../../../shared/lib/utils/token';
+import { baseApi } from '../../../shared/lib/api/base-api';
 
-export const userApi = createApi({
-  reducerPath: 'userApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: BASE_URL,
-    prepareHeaders: (headers) => {
-      const token: Token = getToken();
-
-      if (token) {
-        headers.set('X-Token', token);
-      }
-      headers.set('Content-Type', 'application/json');
-      return headers;
-    }
-  }),
-  tagTypes: ['UserAuth'],
+export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     checkAuth: builder.query<UserData, void>({
       query: () => APIRoute.Login,
+      providesTags: [NameSpace.User]
     }),
     login: builder.mutation<UserData, AuthData>({
       query: (credentials) => ({
@@ -30,7 +17,6 @@ export const userApi = createApi({
         method: 'POST',
         body: credentials
       }),
-      invalidatesTags: ['UserAuth'],
       onQueryStarted: async (_, { queryFulfilled }) => {
         try {
           const {data} = await queryFulfilled;
@@ -39,22 +25,23 @@ export const userApi = createApi({
         } catch (error) {
           throw new Error(`Ошибка авторизации: ${JSON.stringify(error)}`);
         }
-      }
+      },
+      invalidatesTags: [NameSpace.User],
     }),
     logout: builder.mutation<void, void>({
       query: () => ({
         url:APIRoute.Logout,
-        method: 'POST',
+        method: 'DELETE',
       }),
-      invalidatesTags: ['UserAuth'],
       onQueryStarted: async (_, { queryFulfilled }) => {
         try {
           await queryFulfilled;
           dropToken();
         } catch (error) {
-          throw new Error(`Ошибка авторизации: ${JSON.stringify(error)}`);
+          throw new Error(`Ошибка выхода: ${JSON.stringify(error)}`);
         }
-      }
+      },
+      invalidatesTags: [NameSpace.User],
     }),
   }),
 });
@@ -62,6 +49,8 @@ export const userApi = createApi({
 reducer.inject(userApi);
 
 addAppMiddleware(userApi.middleware);
+
+export const checkAuthPrefetch = userApi.endpoints.checkAuth.initiate;
 
 export const {
   useCheckAuthQuery,

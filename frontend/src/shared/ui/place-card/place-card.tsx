@@ -1,29 +1,25 @@
 import Premium from '../premium/premium';
 import MemoizedFavoritButton from '../favorit-button/favorit-button';
 import MemoizedRaitingStars from '../raiting-stars/raiting-stars';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AppRoute } from '../../lib/const/const';
 import { memo } from 'react';
-import { useAppDispatch } from '../../../hooks';
-import { setCurrentOfferId } from '../../../store/offer-process/offer-process.slice';
 import { Offer } from '../../types/offers';
 import { capitalize, mouseEvents } from '../../lib/utils/utils';
-import { MyLocation } from '../../types/my-location';
 
 type PlaceCardProps ={
   className: string;
   offer: Offer;
   isSmall?: boolean;
+  onMouseEvent?: (id: string | null) => void;
 }
 
-function PlaceCard({className, offer, isSmall}: PlaceCardProps): JSX.Element {
+function PlaceCard({className, offer, isSmall, onMouseEvent}: PlaceCardProps): JSX.Element {
   const {id, isPremium, previewImage, price, isFavorite, rating, title, type} = offer;
-  const { pathname } = useLocation() as MyLocation;
-  const dispatch = useAppDispatch();
 
   const handleMouseEvent = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (pathname === AppRoute.Root) {
-      dispatch(setCurrentOfferId(mouseEvents[event.type as keyof typeof mouseEvents](id)));
+    if (onMouseEvent) {
+      onMouseEvent(mouseEvents[event.type as keyof typeof mouseEvents](id));
     }
   };
 

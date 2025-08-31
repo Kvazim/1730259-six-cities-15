@@ -2,10 +2,10 @@ import {Icon, Marker, layerGroup} from 'leaflet';
 import { memo, useEffect, useRef } from 'react';
 import 'leaflet/dist/leaflet.css';
 import { DEFAULT_ZERO, SCROLL_CLASS_NAME, URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../shared/lib/const/const';
-import { useAppSelector } from '../../hooks';
-import { getCurrentOfferId } from '../../store/offer-process/offer-process.selectors';
 import { OfferMapItem, OfferMapItems } from '../../shared/types/offers';
 import useMap from './use-map';
+import { useAppSelector } from '../../shared/lib/redux';
+import { getCurrentOfferId } from '../../features';
 
 type MapProps = {
   className: string;
@@ -66,4 +66,4 @@ function Map({className, offers}: MapProps): JSX.Element {
 
 const MemoizedMap = memo(Map);
 
-export default MemoizedMap;
+export { MemoizedMap };

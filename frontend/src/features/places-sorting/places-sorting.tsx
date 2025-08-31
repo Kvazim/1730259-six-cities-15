@@ -1,15 +1,17 @@
 import cn from 'classnames';
 import { DEFAULT_ZERO, SortType } from '../../shared/lib/const/const';
 import { RefObject, memo, useEffect, useRef, useState } from 'react';
+import { useAppSelector } from '../../shared/lib/redux';
+import { getSortingType } from './model';
+import { useSortTypeSync } from './lib';
 
-type PlacesSortingProps ={
-  currentSort: SortType;
-  onChangeSort: (sortType: SortType) => void;
-}
-
-function PlacesSorting({currentSort, onChangeSort}: PlacesSortingProps): JSX.Element {
+function PlacesSorting() {
   const [isOpenSorting, setIsOpenSorting] = useState(false);
   const sortRef: RefObject<HTMLSpanElement> = useRef(null);
+
+  const sortType = useAppSelector(getSortingType);
+
+  const { updateSortType } = useSortTypeSync();
 
   useEffect(() => {
     const closeSort = (evt: MouseEvent) => {
@@ -31,7 +33,7 @@ function PlacesSorting({currentSort, onChangeSort}: PlacesSortingProps): JSX.Ele
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
       <span className="places__sorting-type" tabIndex={DEFAULT_ZERO} onClick={() => setIsOpenSorting(!isOpenSorting)} ref={sortRef}>
-        {currentSort}
+        {sortType}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
@@ -44,11 +46,11 @@ function PlacesSorting({currentSort, onChangeSort}: PlacesSortingProps): JSX.Ele
               className={
                 cn(
                   'places__option',
-                  { 'places__option--active': currentSort === type }
+                  { 'places__option--active': sortType === type }
                 )
               }
               tabIndex={DEFAULT_ZERO}
-              onClick={() => onChangeSort(type)}
+              onClick={() => updateSortType(type)}
             >
               {type}
             </li>
@@ -61,4 +63,4 @@ function PlacesSorting({currentSort, onChangeSort}: PlacesSortingProps): JSX.Ele
 
 const MemoizedPlacesSorting = memo(PlacesSorting);
 
-export default MemoizedPlacesSorting;
+export {MemoizedPlacesSorting};

@@ -1,0 +1,1 @@
+export { useCitySync } from './hoocks';

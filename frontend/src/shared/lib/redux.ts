@@ -54,7 +54,7 @@ export const withAppMiddleware = withMiddleware.withTypes<MiddlewareApiConfig>()
 export const createAppDispatchWithMiddlewareHook = createDispatchWithMiddlewareHook.withTypes<MiddlewareApiConfig>();
 export default middleware;
 
-export const createSlise = buildCreateSlice({
+export const createSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator }
 });
 

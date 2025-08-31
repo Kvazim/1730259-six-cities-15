@@ -1,0 +1,1 @@
+export { useSortTypeSync } from './hoocks';

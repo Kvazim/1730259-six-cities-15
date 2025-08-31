@@ -1,15 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
 import { AuthorizationStatus, NameSpace } from '../../../shared/lib/const/const';
 import { UserProcess } from '../../../shared/types/state';
 import { userApi } from './user-api';
-import { reducer } from '../../../shared/lib/redux';
+import { reducer, createSlice } from '../../../shared/lib/redux';
 
 const initialState: UserProcess = {
   authorizationStatus: AuthorizationStatus.Unknown,
   userData: null,
 };
 
-export const userSlicce = createSlice({
+export const userSlice = createSlice({
   name: NameSpace.User,
   initialState,
   selectors: {
@@ -48,3 +47,5 @@ export const userSlicce = createSlice({
       );
   },
 }).injectInto(reducer);
+
+export const { authStatus } = userSlice.selectors;

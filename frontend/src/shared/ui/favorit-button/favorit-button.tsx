@@ -16,25 +16,27 @@ type FavoritButtonProps = {
   isFavorite: boolean;
 }
 
-function FavoritButton({id, className, iconWidth, iconHeight, isFavorite}: FavoritButtonProps): JSX.Element {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+function FavoritButton({id, className, iconWidth, iconHeight, isFavorite }: FavoritButtonProps): JSX.Element {
+  // const navigate = useNavigate();
+  // const dispatch = useAppDispatch();
 
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
-  const udateFavoritLoadingStatus = useAppSelector(getFavoriteUpdateOffersLoadingStatus);
-  const isDisabled = udateFavoritLoadingStatus === Status.Loading;
+  // const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  // const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
+  // // const udateFavoritLoadingStatus = useAppSelector(getFavoriteUpdateOffersLoadingStatus);
+  // const isDisabled = udateFavoritLoadingStatus === Status.Loading;
 
-  const handleFavoritButtonClick = () => {
-    if (!isAuthorized) {
-      return navigate(AppRoute.Login, {replace: true});
-    }
+  // const handleFavoritButtonClick = () => {
+  //   if (!isAuthorized) {
+  //     return navigate(AppRoute.Login, {replace: true});
+  //   }
 
-    dispatch(updateFavoriteOffersAction({
-      id,
-      status: Number(!isFavorite)
-    }));
-  };
+  //   dispatch(updateFavoriteOffersAction({
+  //     id,
+  //     status: Number(!isFavorite)
+  //   }));
+  // };
+
+  // handleFavoriteClick(id, isFavorite);
 
   return (
     <button
@@ -45,8 +47,8 @@ function FavoritButton({id, className, iconWidth, iconHeight, isFavorite}: Favor
         )
       }
       type="button"
-      onClick={handleFavoritButtonClick}
-      disabled={isDisabled}
+      // onClick={handleFavoritButtonClick}
+      // disabled={isDisabled}
     >
       <svg
         className={`${className}__bookmark-icon`}

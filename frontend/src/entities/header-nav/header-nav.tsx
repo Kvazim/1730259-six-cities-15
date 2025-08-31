@@ -2,22 +2,22 @@ import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../shared/lib/const/const';
 import { memo, useCallback } from 'react';
 import { useAppSelector } from '../../shared/lib/redux';
-import { userSlicce } from './model/user.slice';
-import { useCheckAuthQuery, useLogoutMutation } from './model/user-api';
+import { useCheckAuthQuery, useLogoutMutation } from './model';
+import { authStatus } from './model';
 
 function HeaderNav(): JSX.Element {
-  const {data} = useCheckAuthQuery();
+  const { data } = useCheckAuthQuery();
   const [ logout, { isLoading } ] = useLogoutMutation();
 
-  const authorizationStatus = useAppSelector(userSlicce.selectors.authStatus);
+  const authorizationStatus = useAppSelector(authStatus);
 
   const favoriteOffers = [];
 
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
-  console.log('a')
+
   const handleClickLogout = useCallback((evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     evt.preventDefault();
-    logout();
+    logout().unwrap();
   }, [logout]);
 
   return (

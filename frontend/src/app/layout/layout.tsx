@@ -7,10 +7,10 @@ import { useMemo } from 'react';
 import { MyLocation } from '../../shared/types/my-location';
 import { MemoizedHeader } from '../../widgest';
 
-export function Layout(): JSX.Element {
+export function Layout() {
   const { pathname } = useLocation() as MyLocation;
   // const favoriteOffers = useAppSelector(getFavoritsData);
-  const favoriteOffers = []
+  const favoriteOffers = [];
   const classLink = useMemo(() =>
     cn('page',
       {'page--gray page--main' : pathname === AppRoute.Root},

@@ -1,22 +1,46 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { AppRoute } from '../../shared/lib/const/const';
-import { Layout } from '../layout/layout';
-import { userApi } from '../../entities/header-nav/model/user-api';
+import PrivateRoute from './private-route';
+import { checkAuthPrefetch } from '../../entities';
+import { getPlacesPrefetch } from '../../features';
+
+const loadStore = () => import('../app-store').then((module) => module.appStore);
 
 export const routes = createBrowserRouter([
   {
-    element: <Layout />,
-    loader: () => userApi.endpoints.checkAuth.initiate(),
+    async lazy() {
+      const { Layout } = await import('../layout/layout');
+
+      return {
+        Component: Layout
+      };
+    },
+    loader: () => {
+      loadStore()
+        .then(
+          (appStore) =>
+            appStore.dispatch(checkAuthPrefetch()).unwrap()
+        );
+      return null;
+    },
     children: [
       {
         path: AppRoute.Root,
+        loader: () => {
+          loadStore()
+            .then(
+              (appStore) =>
+                appStore.dispatch(getPlacesPrefetch()).unwrap()
+            );
+          return null;
+        },
         async lazy() {
           const { MemoizedMain } = await import('../../pages');
 
           return {
             Component: MemoizedMain
           };
-        },
+        }
       },
       // {
       //   path: `${AppRoute.Offer}:id`,
@@ -34,7 +58,11 @@ export const routes = createBrowserRouter([
           const { MemoizedLogin } = await import('../../pages');
 
           return {
-            Component: MemoizedLogin
+            element: (
+              <PrivateRoute isReverse>
+                <MemoizedLogin />
+              </PrivateRoute>
+            )
           };
         }
       },

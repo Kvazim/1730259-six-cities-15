@@ -49,6 +49,8 @@ export enum LoginCredentials {
 
 export enum NameSpace {
   User = 'USER',
+  City = 'CITY',
+  Sorting = 'SORTING',
   Offers = 'OFFERS',
   Reviews = 'REVIEWS',
   Favorites = 'FAVORITES',
