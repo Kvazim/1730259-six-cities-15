@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { AppRoute } from '../../shared/lib/const/const';
 import PrivateRoute from './private-route';
-import { checkAuthPrefetch, getPlacesByIdPrefetch, getReviewsByIdPrefetch } from '../../entities';
+import { checkAuthPrefetch, getNearPrefetch, getPlacesByIdPrefetch, getReviewsByIdPrefetch } from '../../entities';
 import { getPlacesPrefetch } from '../../features';
 
 const loadStore = () => import('../app-store').then((module) => module.appStore);
@@ -56,6 +56,7 @@ export const routes = createBrowserRouter([
               (appStore) =>{
                 appStore.dispatch(getPlacesByIdPrefetch(id)).unwrap();
                 appStore.dispatch(getReviewsByIdPrefetch(id)).unwrap();
+                appStore.dispatch(getNearPrefetch(id)).unwrap();
               }
             );
           return null;

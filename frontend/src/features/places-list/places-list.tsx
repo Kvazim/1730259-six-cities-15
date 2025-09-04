@@ -16,6 +16,8 @@ function PlacesList() {
   return (
     <MemoizedPlacesCardList
       offers={selectSortedPlaces}
+      className='cities__places-list places__list tabs__content'
+      cardClassName='cities'
       onMouseEvent={handleMouseEvent}
     />
   );

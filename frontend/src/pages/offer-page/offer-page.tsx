@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { MemoizedMap, MemoizedPlacesDetails } from '../../widgest';
+import { MemoizedMap, MemoizedNearPlaces, MemoizedPlacesDetails } from '../../widgest';
 import MemoizedPlaceCard from '../../shared/ui/place-card/place-card';
 import MemoizedPremium from '../../shared/ui/premium/premium';
 import { Navigate, useParams } from 'react-router-dom';
@@ -20,7 +20,7 @@ import { setCurrentOfferId } from '../../store/offer-process/offer-process.slice
 import { getReviewsLoadingStatus } from '../../store/review-process/review-process.selectors';
 import { getDataToMap } from '../../shared/lib/utils/utils';
 import { Offer } from '../../shared/types/offers';
-import { selectPlacesById, selectReviewsById } from '../../entities';
+import { selectNear, selectPlacesById, selectReviewsById } from '../../entities';
 import { useAppSelector } from '../../shared/lib/redux';
 import { QueryStatus } from '@reduxjs/toolkit/query/react';
 
@@ -29,11 +29,14 @@ function OfferPage(): JSX.Element {
 
   const { status: offerStatus } = useAppSelector(selectPlacesById(id!));
   const { status: reviewsStatus } = useAppSelector(selectReviewsById(id!));
+  const { status: nearStatus } = useAppSelector(selectNear(id!));
 
   const isPendingFullOfer = offerStatus === QueryStatus.pending;
   const isIdleFullOfer = offerStatus === QueryStatus.uninitialized;
   const isPendingReviews = reviewsStatus === QueryStatus.pending;
   const isIdleReviews = reviewsStatus === QueryStatus.uninitialized;
+  const isPendingRNear = nearStatus === QueryStatus.pending;
+  const isIdleNear = nearStatus === QueryStatus.uninitialized;
   // const dispatch = useAppDispatch();
   // const isLoadingFullOffer = useAppSelector(getFullOfferLoadingStatus);
   // const isLoadingNearByOffers = useAppSelector(getNearByOffersLoadingStatus);
@@ -52,7 +55,7 @@ function OfferPage(): JSX.Element {
   //   dispatch(fetchNearByOffersAction(id));
   // },[dispatch, id]);
 
-  if (isIdleFullOfer || isPendingFullOfer || isPendingReviews || isIdleReviews) {
+  if (isIdleFullOfer || isPendingFullOfer || isPendingReviews || isIdleReviews || isIdleNear || isPendingRNear) {
     return <LoadingScreen />;
   }
 
@@ -85,19 +88,7 @@ function OfferPage(): JSX.Element {
       <MemoizedPlacesDetails >
         {/* <MemoizedMap className='offer' offers={mapItems} /> */}
       </MemoizedPlacesDetails>
-      {/* <div className="container">
-        <section className="near-places places">
-          <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <div className="near-places__list places__list">
-            {
-              nearByOffers.length > DEFAULT_ZERO &&
-              nearByOffers.map(
-                (nearByOffer) => <MemoizedPlaceCard key={nearByOffer.id} className='near-places' offer={nearByOffer} />
-              )
-            }
-          </div>
-        </section>
-      </div> */}
+      <MemoizedNearPlaces />
     </main>
   );
 }
