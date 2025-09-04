@@ -19,3 +19,5 @@ const addReviewApi = baseApi.injectEndpoints({
 reducer.inject(addReviewApi);
 
 addAppMiddleware(addReviewApi.middleware);
+
+export const { useAddReviewMutation } = addReviewApi;

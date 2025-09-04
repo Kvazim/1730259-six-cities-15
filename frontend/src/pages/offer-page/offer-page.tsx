@@ -20,16 +20,20 @@ import { setCurrentOfferId } from '../../store/offer-process/offer-process.slice
 import { getReviewsLoadingStatus } from '../../store/review-process/review-process.selectors';
 import { getDataToMap } from '../../shared/lib/utils/utils';
 import { Offer } from '../../shared/types/offers';
-import { selectPlacesById } from '../../entities';
+import { selectPlacesById, selectReviewsById } from '../../entities';
 import { useAppSelector } from '../../shared/lib/redux';
 import { QueryStatus } from '@reduxjs/toolkit/query/react';
 
 function OfferPage(): JSX.Element {
   const { id } = useParams<{ id: Offer['id'] }>();
 
-  const { status } = useAppSelector(selectPlacesById(id!));
-  const isPendingFullOfer = status === QueryStatus.pending;
-  const isIdleFullOfer = status === QueryStatus.uninitialized;
+  const { status: offerStatus } = useAppSelector(selectPlacesById(id!));
+  const { status: reviewsStatus } = useAppSelector(selectReviewsById(id!));
+
+  const isPendingFullOfer = offerStatus === QueryStatus.pending;
+  const isIdleFullOfer = offerStatus === QueryStatus.uninitialized;
+  const isPendingReviews = reviewsStatus === QueryStatus.pending;
+  const isIdleReviews = reviewsStatus === QueryStatus.uninitialized;
   // const dispatch = useAppDispatch();
   // const isLoadingFullOffer = useAppSelector(getFullOfferLoadingStatus);
   // const isLoadingNearByOffers = useAppSelector(getNearByOffersLoadingStatus);
@@ -48,7 +52,7 @@ function OfferPage(): JSX.Element {
   //   dispatch(fetchNearByOffersAction(id));
   // },[dispatch, id]);
 
-  if (isIdleFullOfer || isPendingFullOfer) {
+  if (isIdleFullOfer || isPendingFullOfer || isPendingReviews || isIdleReviews) {
     return <LoadingScreen />;
   }
 

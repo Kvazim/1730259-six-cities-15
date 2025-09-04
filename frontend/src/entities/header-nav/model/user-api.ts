@@ -17,14 +17,10 @@ export const userApi = baseApi.injectEndpoints({
         method: 'POST',
         body: credentials
       }),
-      onQueryStarted: async (_, { queryFulfilled }) => {
-        try {
-          const {data} = await queryFulfilled;
-          const token = data.token;
-          saveToken(token);
-        } catch (error) {
-          throw new Error(`Ошибка авторизации: ${JSON.stringify(error)}`);
-        }
+      transformResponse: (response: UserData) => {
+        const token = response.token;
+        saveToken(token);
+        return response;
       },
       invalidatesTags: [NameSpace.User],
     }),
@@ -33,13 +29,8 @@ export const userApi = baseApi.injectEndpoints({
         url:APIRoute.Logout,
         method: 'DELETE',
       }),
-      onQueryStarted: async (_, { queryFulfilled }) => {
-        try {
-          await queryFulfilled;
-          dropToken();
-        } catch (error) {
-          throw new Error(`Ошибка выхода: ${JSON.stringify(error)}`);
-        }
+      transformResponse: () => {
+        dropToken();
       },
       invalidatesTags: [NameSpace.User],
     }),
