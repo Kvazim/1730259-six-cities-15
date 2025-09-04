@@ -1,2 +1,2 @@
 export { MemoizedPlacesSorting } from './places-sorting';
-export { selectSortingPlaces } from './model';
+export { getSortingType } from './model';

@@ -5,7 +5,7 @@ import { useAppSelector } from '../../shared/lib/redux';
 import { useCheckAuthQuery, useLogoutMutation } from './model';
 import { authStatus } from './model';
 
-function HeaderNav(): JSX.Element {
+function HeaderNav() {
   const { data } = useCheckAuthQuery();
   const [ logout, { isLoading } ] = useLogoutMutation();
 

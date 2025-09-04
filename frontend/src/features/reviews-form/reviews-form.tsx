@@ -5,13 +5,11 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { addReviewAction } from '../../store/api-actions';
 import { getAddReviewsLoadingStatus } from '../../store/review-process/review-process.selectors';
 import { toast } from 'react-toastify';
+import { useParams } from 'react-router-dom';
 import { Offer } from '../../shared/types/offers';
 
-type ReviewsFormProps = {
-  id: Offer['id'];
-}
-
-function ReviewsForm({id}: ReviewsFormProps): JSX.Element {
+function ReviewsForm() {
+  const { id } = useParams<{ id: Offer['id'] }>();
   const [isChecked, setIsChecked] = useState('0');
   const [value, setValue] = useState('');
   const [isSubmitActive, setIsSubmitActive] = useState(false);
@@ -49,7 +47,7 @@ function ReviewsForm({id}: ReviewsFormProps): JSX.Element {
 
     if (value && isChecked) {
       dispatch(addReviewAction({
-        id: id,
+        id: id!,
         comment: value,
         rating: Number(isChecked)
       }));
@@ -90,4 +88,4 @@ function ReviewsForm({id}: ReviewsFormProps): JSX.Element {
 
 const MemoizedReviewsForm = memo(ReviewsForm);
 
-export default MemoizedReviewsForm;
+export { MemoizedReviewsForm };

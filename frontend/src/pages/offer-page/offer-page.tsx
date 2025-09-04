@@ -1,10 +1,10 @@
 import { Helmet } from 'react-helmet-async';
-import MemoizedMap from '../../widgest/map/map';
+import { MemoizedMap, MemoizedPlacesDetails } from '../../widgest';
 import MemoizedPlaceCard from '../../shared/ui/place-card/place-card';
 import MemoizedPremium from '../../shared/ui/premium/premium';
 import { Navigate, useParams } from 'react-router-dom';
 import { AppRoute, DEFAULT_ZERO, MAX_NIAR_OFFER, Status } from '../../shared/lib/const/const';
-import MemoizedOfferReviews from '../../widgest/offer-reviews/offer-reviews';
+import MemoizedOfferReviews from '../../entities/offer-reviews/offer-reviews';
 import MemoizedOfferHost from '../../shared/ui/offer-host/offer-host';
 import MemoizedOfferGalery from '../../shared/ui/offer-galery/offer-galery';
 import MemoizedOfferInside from '../../shared/ui/offer-inside/offer-inside';
@@ -12,7 +12,6 @@ import MemoizedOfferPrice from '../../shared/ui/offer-price/offer-price';
 import MemoizedOfferFeatures from '../../shared/ui/offer-features/offer-features';
 import MemoizedOfferRating from '../../shared/ui/offer-rating/offer-rating';
 import MemoizedOfferName from '../../shared/ui/offer-name/offer-name';
-import { useAppDispatch, useAppSelector } from '../../hooks';
 import { memo, useEffect } from 'react';
 import { fetchNearByOffersAction, fetchOfferIdAction, fetchOfferReviewsAction } from '../../store/api-actions';
 import LoadingScreen from '../../shared/ui/loading-screen/loading-screen';
@@ -21,70 +20,68 @@ import { setCurrentOfferId } from '../../store/offer-process/offer-process.slice
 import { getReviewsLoadingStatus } from '../../store/review-process/review-process.selectors';
 import { getDataToMap } from '../../shared/lib/utils/utils';
 import { Offer } from '../../shared/types/offers';
+import { selectPlacesById } from '../../entities';
+import { useAppSelector } from '../../shared/lib/redux';
+import { QueryStatus } from '@reduxjs/toolkit/query/react';
 
 function OfferPage(): JSX.Element {
   const { id } = useParams<{ id: Offer['id'] }>();
-  const dispatch = useAppDispatch();
-  const isLoadingFullOffer = useAppSelector(getFullOfferLoadingStatus);
-  const isLoadingNearByOffers = useAppSelector(getNearByOffersLoadingStatus);
-  const isReviewLoading = useAppSelector(getReviewsLoadingStatus);
-  const offer = useAppSelector(getFullOffer);
-  const nearByOffers = useAppSelector(getNearByOffers).slice(DEFAULT_ZERO, MAX_NIAR_OFFER);
 
-  useEffect(() => {
-    if (!id) {
-      return;
-    }
+  const { status } = useAppSelector(selectPlacesById(id!));
+  const isPendingFullOfer = status === QueryStatus.pending;
+  const isIdleFullOfer = status === QueryStatus.uninitialized;
+  // const dispatch = useAppDispatch();
+  // const isLoadingFullOffer = useAppSelector(getFullOfferLoadingStatus);
+  // const isLoadingNearByOffers = useAppSelector(getNearByOffersLoadingStatus);
+  // const isReviewLoading = useAppSelector(getReviewsLoadingStatus);
+  // const offer = useAppSelector(getFullOffer);
+  // const nearByOffers = useAppSelector(getNearByOffers).slice(DEFAULT_ZERO, MAX_NIAR_OFFER);
 
-    dispatch(setCurrentOfferId(id));
-    dispatch(fetchOfferIdAction(id));
-    dispatch(fetchOfferReviewsAction(id));
-    dispatch(fetchNearByOffersAction(id));
-  },[dispatch, id]);
+  // useEffect(() => {
+  //   if (!id) {
+  //     return;
+  //   }
 
-  if (
-    (isLoadingFullOffer === Status.Idle || isLoadingFullOffer === Status.Loading) ||
-    (isReviewLoading === Status.Idle || isReviewLoading === Status.Loading) ||
-    (isLoadingNearByOffers === Status.Idle || isLoadingNearByOffers === Status.Loading)
-  ) {
+  //   dispatch(setCurrentOfferId(id));
+  //   dispatch(fetchOfferIdAction(id));
+  //   dispatch(fetchOfferReviewsAction(id));
+  //   dispatch(fetchNearByOffersAction(id));
+  // },[dispatch, id]);
+
+  if (isIdleFullOfer || isPendingFullOfer) {
     return <LoadingScreen />;
   }
 
-  if (!offer) {
-    return <Navigate to={AppRoute.PageNotFound} replace />;
-  }
+  // if (
+  //   (isLoadingFullOffer === Status.Idle || isLoadingFullOffer === Status.Loading) ||
+  //   (isReviewLoading === Status.Idle || isReviewLoading === Status.Loading) ||
+  //   (isLoadingNearByOffers === Status.Idle || isLoadingNearByOffers === Status.Loading)
+  // ) {
+  //   return <LoadingScreen />;
+  // }
 
-  const {
-    images, isPremium, title,
-    isFavorite, rating, type,
-    bedrooms, maxAdults, price,
-    goods, host, description,
-  } = offer;
+  // if (!offer) {
+  //   return <Navigate to={AppRoute.PageNotFound} replace />;
+  // }
 
-  const mapItems = getDataToMap(nearByOffers).concat({id: offer.id, city: offer.city, location: offer.location});
+  // const {
+  //   images, isPremium, title,
+  //   isFavorite, rating, type,
+  //   bedrooms, maxAdults, price,
+  //   goods, host, description,
+  // } = offer;
+
+  // const mapItems = getDataToMap(nearByOffers).concat({id: offer.id, city: offer.city, location: offer.location});
 
   return (
     <main className="page__main page__main--offer">
       <Helmet>
         <title>6 cities: offer</title>
       </Helmet>
-      <section className="offer">
-        <MemoizedOfferGalery images={images} />
-        <div className="offer__container container">
-          <div className="offer__wrapper">
-            {isPremium && <MemoizedPremium className='offer__mark' />}
-            {id && <MemoizedOfferName id={id} title={title} isFavorite={isFavorite} />}
-            <MemoizedOfferRating rating={rating} />
-            <MemoizedOfferFeatures type={type} bedrooms={bedrooms} maxAdults={maxAdults} />
-            <MemoizedOfferPrice price={price} />
-            <MemoizedOfferInside goods={goods} />
-            <MemoizedOfferHost host={host} description={description} />
-            {id && <MemoizedOfferReviews id={id} />}
-          </div>
-        </div>
-        <MemoizedMap className='offer' offers={mapItems} />
-      </section>
-      <div className="container">
+      <MemoizedPlacesDetails >
+        {/* <MemoizedMap className='offer' offers={mapItems} /> */}
+      </MemoizedPlacesDetails>
+      {/* <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <div className="near-places__list places__list">
@@ -96,11 +93,11 @@ function OfferPage(): JSX.Element {
             }
           </div>
         </section>
-      </div>
+      </div> */}
     </main>
   );
 }
 
 const MemoizedOfferPage = memo(OfferPage);
 
-export default MemoizedOfferPage;
+export { MemoizedOfferPage };

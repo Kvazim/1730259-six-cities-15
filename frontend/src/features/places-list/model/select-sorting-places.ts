@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { SortType } from '../../../shared/lib/const/const';
-import { getSortingType } from '.';
 import { selectFilteredPlaces } from '../../places-list';
+import { getSortingType } from '../../places-sorting';
 
 export const selectSortingPlaces = createSelector(
   selectFilteredPlaces,

@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { AppRoute } from '../../shared/lib/const/const';
 import PrivateRoute from './private-route';
-import { checkAuthPrefetch } from '../../entities';
+import { checkAuthPrefetch, getPlacesByIdPrefetch, getReviewsByIdPrefetch } from '../../entities';
 import { getPlacesPrefetch } from '../../features';
 
 const loadStore = () => import('../app-store').then((module) => module.appStore);
@@ -42,16 +42,32 @@ export const routes = createBrowserRouter([
           };
         }
       },
-      // {
-      //   path: `${AppRoute.Offer}:id`,
-      //   async lazy() {
-      //     const { default: MemoizedOfferPage } = await import('../../pages/main/main');
+      {
+        path: `${AppRoute.Offer}:id`,
+        loader: ({ params }) => {
+          const { id } = params;
 
-      //     return {
-      //       Component: MemoizedOfferPage
-      //     };
-      //   }
-      // },
+          if (!id) {
+            return null;
+          }
+
+          loadStore()
+            .then(
+              (appStore) =>{
+                appStore.dispatch(getPlacesByIdPrefetch(id)).unwrap();
+                appStore.dispatch(getReviewsByIdPrefetch(id)).unwrap();
+              }
+            );
+          return null;
+        },
+        async lazy() {
+          const { MemoizedOfferPage } = await import('../../pages');
+
+          return {
+            Component: MemoizedOfferPage
+          };
+        }
+      },
       {
         path: AppRoute.Login,
         async lazy() {

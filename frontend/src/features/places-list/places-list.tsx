@@ -2,7 +2,8 @@ import { memo } from 'react';
 import { MemoizedPlacesCardList } from '../../shared/ui/places-card-list/places-card-list';
 import { setCurrentOfferId } from './model';
 import { useAppDispatch, useAppSelector } from '../../shared/lib/redux';
-import { selectSortingPlaces } from '../places-sorting';
+import { selectSortingPlaces } from './model';
+
 
 function PlacesList() {
   const dispatch = useAppDispatch();

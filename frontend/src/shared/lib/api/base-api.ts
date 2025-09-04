@@ -5,5 +5,5 @@ import { NameSpace } from '../const/const';
 export const baseApi = createApi({
   baseQuery: createBaseQuery(),
   endpoints: () => ({}),
-  tagTypes: [NameSpace.User]
+  tagTypes: [NameSpace.User, NameSpace.Offers, NameSpace.Reviews]
 });
