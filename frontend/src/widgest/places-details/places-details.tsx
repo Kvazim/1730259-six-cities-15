@@ -3,7 +3,7 @@ import { authStatus, MemoizedOfferReviews } from '../../entities';
 import { MemoizedPlaces } from '../../entities';
 import { useAppSelector } from '../../shared/lib/redux';
 import { AuthorizationStatus } from '../../shared/lib/const/const';
-import { MemoizedReviewsForm } from '../../features';
+import { MemoizedReviewsForm, MemoizedToggleFavoriteButton } from '../../features';
 
 type PlacesDetailsProps = {
   children?: ReactNode;
@@ -15,7 +15,18 @@ function PlacesDetails({children}: PlacesDetailsProps) {
 
   return (
     <section className="offer">
-      <MemoizedPlaces>
+      <MemoizedPlaces
+        favoritButton={({ isFavorite, id }) => (
+          <MemoizedToggleFavoriteButton
+            className="offer"
+            iconWidth="31"
+            iconHeight="33"
+            isFavorite={isFavorite}
+            id={id}
+            isAuthorized={isAuth}
+          />
+        )}
+      >
         <MemoizedOfferReviews >
           {isAuth && <MemoizedReviewsForm />}
         </MemoizedOfferReviews>

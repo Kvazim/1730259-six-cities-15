@@ -15,9 +15,10 @@ import { AppRoute } from '../../shared/lib/const/const';
 
 type PlacesProps = {
   children?: ReactNode;
+  favoritButton?: (props: { isFavorite: boolean; id: string }) => ReactNode;
 }
 
-function Places({children}: PlacesProps) {
+function Places({children, favoritButton}: PlacesProps) {
   const { id } = useParams<{ id: Offer['id'] }>();
 
   const {data: fullOffer } = useAppSelector(selectPlacesById(id!));
@@ -39,7 +40,12 @@ function Places({children}: PlacesProps) {
       <div className="offer__container container">
         <div className="offer__wrapper">
           {isPremium && <MemoizedPremium className='offer__mark' />}
-          <MemoizedOfferName id={id!} title={title} isFavorite={isFavorite} />
+          <MemoizedOfferName title={title} >
+            {favoritButton && favoritButton({
+              isFavorite,
+              id: id!
+            })}
+          </MemoizedOfferName>
           <MemoizedOfferRating rating={rating} />
           <MemoizedOfferFeatures type={type} bedrooms={bedrooms} maxAdults={maxAdults} />
           <MemoizedOfferPrice price={price} />

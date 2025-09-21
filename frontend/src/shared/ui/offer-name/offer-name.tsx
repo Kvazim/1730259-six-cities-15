@@ -1,20 +1,17 @@
-import { memo } from 'react';
-import MemoizedFavoritButton from '../favorit-button/favorit-button';
-import { Offer } from '../../types/offers';
+import { memo, ReactNode } from 'react';
 
 type OfferNameProps = {
   title: string;
-  id: Offer['id'];
-  isFavorite: boolean;
+  children?: ReactNode;
 }
 
-function OfferName({title, isFavorite, id}: OfferNameProps): JSX.Element {
+function OfferName({title, children}: OfferNameProps): JSX.Element {
   return (
     <div className="offer__name-wrapper">
       <h1 className="offer__name">
         {title}
       </h1>
-      <MemoizedFavoritButton className='offer' iconWidth='31' iconHeight='33' isFavorite={isFavorite} id={id} />
+      {children}
     </div>
   );
 }

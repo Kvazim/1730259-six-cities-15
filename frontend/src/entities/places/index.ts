@@ -1,2 +1,2 @@
 export { MemoizedPlaces } from './places';
-export { getPlacesByIdPrefetch, selectPlacesById } from './model';
+export { getPlacesByIdPrefetch, selectPlacesById, placesByIdApi } from './model';

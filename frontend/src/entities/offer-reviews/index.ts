@@ -1,2 +1,2 @@
 export { MemoizedOfferReviews } from './offer-reviews';
-export { getReviewsByIdPrefetch, selectReviewsById } from './model';
+export { getReviewsByIdPrefetch, selectReviewsById, reviewsApi } from './model';

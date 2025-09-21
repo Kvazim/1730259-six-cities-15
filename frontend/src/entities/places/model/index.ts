@@ -1,1 +1,1 @@
-export { getPlacesByIdPrefetch, selectPlacesById } from './places-by-id-api';
+export { getPlacesByIdPrefetch, selectPlacesById, placesByIdApi } from './places-by-id-api';

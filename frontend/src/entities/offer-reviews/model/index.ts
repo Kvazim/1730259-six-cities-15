@@ -1,2 +1,2 @@
-export { getReviewsByIdPrefetch, selectReviewsById } from './reviews-api';
+export { getReviewsByIdPrefetch, selectReviewsById, reviewsApi } from './reviews-api';
 export { selectSortingReviews } from './select-sorting-reviews';
