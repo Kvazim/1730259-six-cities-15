@@ -1,4 +1,4 @@
-import { memo, ReactNode } from 'react';
+import { memo, ReactNode, useEffect } from 'react';
 import MemoizedOfferFeatures from '../../shared/ui/offer-features/offer-features';
 import MemoizedOfferGalery from '../../shared/ui/offer-galery/offer-galery';
 import MemoizedOfferHost from '../../shared/ui/offer-host/offer-host';
@@ -10,18 +10,30 @@ import MemoizedPremium from '../../shared/ui/premium/premium';
 import { useAppSelector } from '../../shared/lib/redux';
 import { selectPlacesById } from './model';
 import { Navigate, useParams } from 'react-router-dom';
-import { Offer } from '../../shared/types/offers';
+import { Offer, OfferMapItem } from '../../shared/types/offers';
 import { AppRoute } from '../../shared/lib/const/const';
+import { getDataToMap } from '../../shared/lib/utils/utils';
 
 type PlacesProps = {
   children?: ReactNode;
   favoritButton?: (props: { isFavorite: boolean; id: string }) => ReactNode;
+  onCurrentOfferChange: (offer: OfferMapItem | null) => void;
 }
 
-function Places({children, favoritButton}: PlacesProps) {
+function Places({children, favoritButton, onCurrentOfferChange}: PlacesProps) {
   const { id } = useParams<{ id: Offer['id'] }>();
 
   const {data: fullOffer } = useAppSelector(selectPlacesById(id!));
+
+  useEffect(() => {
+    if (fullOffer) {
+      onCurrentOfferChange(getDataToMap(fullOffer) as OfferMapItem);
+    }
+
+    return () => {
+      onCurrentOfferChange(null);
+    };
+  }, [fullOffer, onCurrentOfferChange]);
 
   if (!fullOffer) {
     return <Navigate to={AppRoute.PageNotFound} replace />;

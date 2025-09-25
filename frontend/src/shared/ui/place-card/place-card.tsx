@@ -4,14 +4,14 @@ import MemoizedRaitingStars from '../raiting-stars/raiting-stars';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../lib/const/const';
 import { memo } from 'react';
-import { Offer } from '../../types/offers';
-import { capitalize, mouseEvents } from '../../lib/utils/utils';
+import { Offer, OfferMapItem } from '../../types/offers';
+import { capitalize, getDataToMap, mouseEvents } from '../../lib/utils/utils';
 
 type PlaceCardProps ={
   className: string;
   offer: Offer;
   isSmall?: boolean;
-  onMouseEvent?: (id: string | null) => void;
+  onMouseEvent?: (data: OfferMapItem | null) => void;
 }
 
 function PlaceCard({className, offer, isSmall, onMouseEvent}: PlaceCardProps): JSX.Element {
@@ -19,12 +19,12 @@ function PlaceCard({className, offer, isSmall, onMouseEvent}: PlaceCardProps): J
 
   const handleMouseEvent = (event: React.MouseEvent<HTMLDivElement>) => {
     if (onMouseEvent) {
-      onMouseEvent(mouseEvents[event.type as keyof typeof mouseEvents](id));
+      onMouseEvent(mouseEvents[event.type as keyof typeof mouseEvents](getDataToMap(offer) as OfferMapItem));
     }
   };
 
   const cardURL = `${AppRoute.Offer}${id}`;
-
+  //TODO: разобраться с дисабоедом кнопки и обновлением статуса избранного
   return (
     <article
       className={`${className}__card place-card`}
@@ -46,7 +46,7 @@ function PlaceCard({className, offer, isSmall, onMouseEvent}: PlaceCardProps): J
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <MemoizedFavoritButton className='place-card' iconWidth='18' iconHeight='19' isFavorite={isFavorite} id={id} />
+          <MemoizedFavoritButton className='place-card' iconWidth='18' iconHeight='19' isFavorite={isFavorite} isDisabled={false} handleFavoritButtonClick={()=> (console.log('click'))} />
         </div>
         <div className="place-card__rating rating">
           <MemoizedRaitingStars className='place-card__stars' rating={rating} />

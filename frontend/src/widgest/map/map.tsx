@@ -5,7 +5,7 @@ import { DEFAULT_ZERO, SCROLL_CLASS_NAME, URL_MARKER_CURRENT, URL_MARKER_DEFAULT
 import { OfferMapItem, OfferMapItems } from '../../shared/types/offers';
 import useMap from './use-map';
 import { useAppSelector } from '../../shared/lib/redux';
-import { getCurrentOfferId } from '../../features';
+import { getCurrentOffer } from '../../features';
 
 type MapProps = {
   className: string;
@@ -26,7 +26,7 @@ const currentCustomIcon = new Icon({
 
 function Map({className, offers}: MapProps): JSX.Element {
   const mapRef = useRef(null);
-  const activeOfferId = useAppSelector(getCurrentOfferId);
+  const activeOffer = useAppSelector(getCurrentOffer);
   const cityLocation = offers[DEFAULT_ZERO].city.location;
   const mapZoomOnScroll = className === SCROLL_CLASS_NAME;
   const map = useMap(mapRef, cityLocation, mapZoomOnScroll);
@@ -34,6 +34,7 @@ function Map({className, offers}: MapProps): JSX.Element {
   useEffect(() => {
     if (map) {
       map.flyTo([cityLocation.latitude, cityLocation.longitude], cityLocation.zoom);
+
       const markerGroup = layerGroup().addTo(map);
 
       const addMarker = (offer: OfferMapItem) => {
@@ -44,7 +45,7 @@ function Map({className, offers}: MapProps): JSX.Element {
 
         marker
           .setIcon(
-            offer.id === activeOfferId
+            offer.id === activeOffer?.id
               ? currentCustomIcon
               : defaultCustomIcon
           )
@@ -53,11 +54,16 @@ function Map({className, offers}: MapProps): JSX.Element {
 
       offers.forEach((offer) => addMarker(offer));
 
+      // добавляем маркер если есть активное предложение и его нет в массиве предложений
+      if (activeOffer && !offers.find((offer) => offer.id === activeOffer.id)) {
+        addMarker(activeOffer);
+      }
+
       return () => {
         map.removeLayer(markerGroup);
       };
     }
-  }, [activeOfferId, cityLocation, map, offers]);
+  }, [activeOffer, cityLocation, map, offers]);
 
   return (
     <section ref={mapRef} className={`${className}__map map`}></section>

@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Offers } from '../../types/offers';
+import { OfferMapItem, Offers } from '../../types/offers';
 import MemoizedPlaceCard from '../place-card/place-card';
 import { DEFAULT_ZERO } from '../../lib/const/const';
 
@@ -7,7 +7,7 @@ type PlacesCardListProps = {
   offers?: Offers;
   className: string;
   cardClassName: string;
-  onMouseEvent?: (id: string | null) => void;
+  onMouseEvent?: (data: OfferMapItem | null) => void;
 }
 
 export function PlacesCardList({offers, className, cardClassName, onMouseEvent}: PlacesCardListProps) {

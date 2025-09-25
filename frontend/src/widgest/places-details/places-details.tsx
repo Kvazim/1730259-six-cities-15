@@ -1,38 +1,31 @@
 import { memo, ReactNode } from 'react';
-import { authStatus, MemoizedOfferReviews } from '../../entities';
 import { MemoizedPlaces } from '../../entities';
-import { useAppSelector } from '../../shared/lib/redux';
-import { AuthorizationStatus } from '../../shared/lib/const/const';
-import { MemoizedReviewsForm, MemoizedToggleFavoriteButton } from '../../features';
+import { MemoizedToggleFavoriteButton } from '../../features';
+import { OfferMapItem } from '../../shared/types/offers';
 
 type PlacesDetailsProps = {
   children?: ReactNode;
+  isAuth: boolean;
+  onCurrentOfferChange: (offer: OfferMapItem | null) => void;
 };
 
-function PlacesDetails({children}: PlacesDetailsProps) {
-  const authorizationStatus = useAppSelector(authStatus);
-  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
-
+function PlacesDetails({children, isAuth, onCurrentOfferChange}: PlacesDetailsProps) {
   return (
-    <section className="offer">
-      <MemoizedPlaces
-        favoritButton={({ isFavorite, id }) => (
-          <MemoizedToggleFavoriteButton
-            className="offer"
-            iconWidth="31"
-            iconHeight="33"
-            isFavorite={isFavorite}
-            id={id}
-            isAuthorized={isAuth}
-          />
-        )}
-      >
-        <MemoizedOfferReviews >
-          {isAuth && <MemoizedReviewsForm />}
-        </MemoizedOfferReviews>
-      </MemoizedPlaces>
+    <MemoizedPlaces
+      onCurrentOfferChange={onCurrentOfferChange}
+      favoritButton={({ isFavorite, id }) => (
+        <MemoizedToggleFavoriteButton
+          className="offer"
+          iconWidth="31"
+          iconHeight="33"
+          isFavorite={isFavorite}
+          id={id}
+          isAuthorized={isAuth}
+        />
+      )}
+    >
       {children}
-    </section>
+    </MemoizedPlaces>
   );
 }
 const MemoizedPlacesDetails = memo(PlacesDetails);

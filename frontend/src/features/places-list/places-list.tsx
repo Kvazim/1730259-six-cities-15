@@ -1,16 +1,17 @@
 import { memo } from 'react';
 import { MemoizedPlacesCardList } from '../../shared/ui/places-card-list/places-card-list';
-import { setCurrentOfferId } from './model';
+import { setCurrentOffer } from './model';
 import { useAppDispatch, useAppSelector } from '../../shared/lib/redux';
 import { selectSortingPlaces } from './model';
+import { OfferMapItem } from '../../shared/types/offers';
 
 
 function PlacesList() {
   const dispatch = useAppDispatch();
   const selectSortedPlaces = useAppSelector(selectSortingPlaces);
 
-  const handleMouseEvent = (id: string | null) => {
-    dispatch(setCurrentOfferId(id));
+  const handleMouseEvent = (data: OfferMapItem | null) => {
+    dispatch(setCurrentOffer(data));
   };
 
   return (

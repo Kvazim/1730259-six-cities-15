@@ -1,4 +1,4 @@
-import { Offers } from '../../types/offers';
+import { FullOffer, Offer, OfferMapItem, Offers } from '../../types/offers';
 import {
   EMAIL_REG_EXP,
   LoginCredentials,
@@ -19,9 +19,9 @@ export const getCurrentOffers = (location: string, offers: Offers): Offers => of
 export const convertRatingToPercentage = (item: number) => `${String(Math.round(item) / 0.05)}%`;
 
 export const mouseEvents: {
-  [key in MouseEvent]: (id: string) => string | null;
+  [key in MouseEvent]: (data: OfferMapItem) => OfferMapItem | null;
 } = {
-  [MouseEvent.MouseEnter]: (id) => id,
+  [MouseEvent.MouseEnter]: (data) => data,
   [MouseEvent.MouseLeave]: () => null
 };
 
@@ -32,4 +32,11 @@ export const validateLoginAndEmail = (authData: FormData) => {
   return isValidEmail && isValidPassword;
 };
 
-export const getDataToMap = (array: Offers) => array.map(({id, city, location}) => ({id, city, location}));
+export const getDataToMap = (data: Offers | Offer | FullOffer) => {
+  if (Array.isArray(data)) {
+    return data.map(({id, city, location}) => ({id, city, location}));
+  } else {
+    const {id, city, location} = data;
+    return {id, city: city, location};
+  }
+};

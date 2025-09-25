@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { UserData } from './user-data';
-import { FullOffer, Offer, Offers } from './offers';
+import { FullOffer, Offer, OfferMapItem, Offers } from './offers';
 import { Reviews } from './reviews';
 import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { store } from '../../store';
@@ -12,7 +12,7 @@ export type UserProcess = {
 }
 
 export type PlacesProcess = {
-  currentOfferId: Offer['id'] | null;
+  currentOffer: OfferMapItem | null;
 }
 
 export type SortingTypeProcess = {
