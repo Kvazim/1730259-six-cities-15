@@ -57,5 +57,3 @@ export default middleware;
 export const createSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator }
 });
-
-// @jedmao/redux-mock-store D

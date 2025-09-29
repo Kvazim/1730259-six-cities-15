@@ -1,3 +1,5 @@
+import { QueryStatus } from '@reduxjs/toolkit/query/react';
+
 export enum AppRoute {
   Root = '/',
   Login = '/login',
@@ -77,6 +79,11 @@ export const STARS = [
   'badly',
   'terribly',
 ] as const;
+
+export const LOADING_STATUSES = new Set([
+  QueryStatus.pending,
+  QueryStatus.uninitialized
+]);
 
 export const DEFAULT_CITY = Cities.Paris;
 

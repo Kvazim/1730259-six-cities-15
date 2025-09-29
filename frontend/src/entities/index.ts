@@ -2,4 +2,4 @@ export { authStatus, checkAuthPrefetch, MemoizedHeaderNav, useLoginMutation } fr
 export { MemoizedLocationList, getCurrentCity, setCurrentCity } from './location-list';
 export { MemoizedPlaces, getPlacesByIdPrefetch, selectPlacesById, placesByIdApi } from './places';
 export { MemoizedOfferReviews, getReviewsByIdPrefetch, selectReviewsById, reviewsApi } from './offer-reviews';
-export { MemoizedNearList, getNearPrefetch, selectNearSlice, selectNear } from './near-list';
+export { MemoizedNearList, getNearPrefetch, selectNearSlice, selectNear, nearApi } from './near-list';

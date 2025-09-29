@@ -1,5 +1,4 @@
 import Premium from '../premium/premium';
-import MemoizedFavoritButton from '../favorit-button/favorit-button';
 import MemoizedRaitingStars from '../raiting-stars/raiting-stars';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../lib/const/const';
@@ -11,11 +10,12 @@ type PlaceCardProps ={
   className: string;
   offer: Offer;
   isSmall?: boolean;
+  buttonSlot?: React.ReactNode;
   onMouseEvent?: (data: OfferMapItem | null) => void;
 }
 
-function PlaceCard({className, offer, isSmall, onMouseEvent}: PlaceCardProps): JSX.Element {
-  const {id, isPremium, previewImage, price, isFavorite, rating, title, type} = offer;
+function PlaceCard({className, offer, isSmall, buttonSlot, onMouseEvent}: PlaceCardProps): JSX.Element {
+  const {id, isPremium, previewImage, price, rating, title, type} = offer;
 
   const handleMouseEvent = (event: React.MouseEvent<HTMLDivElement>) => {
     if (onMouseEvent) {
@@ -24,7 +24,7 @@ function PlaceCard({className, offer, isSmall, onMouseEvent}: PlaceCardProps): J
   };
 
   const cardURL = `${AppRoute.Offer}${id}`;
-  //TODO: разобраться с дисабоедом кнопки и обновлением статуса избранного
+
   return (
     <article
       className={`${className}__card place-card`}
@@ -46,7 +46,7 @@ function PlaceCard({className, offer, isSmall, onMouseEvent}: PlaceCardProps): J
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <MemoizedFavoritButton className='place-card' iconWidth='18' iconHeight='19' isFavorite={isFavorite} isDisabled={false} handleFavoritButtonClick={()=> (console.log('click'))} />
+          {buttonSlot}
         </div>
         <div className="place-card__rating rating">
           <MemoizedRaitingStars className='place-card__stars' rating={rating} />

@@ -29,8 +29,10 @@ export const userApi = baseApi.injectEndpoints({
         url:APIRoute.Logout,
         method: 'DELETE',
       }),
-      transformResponse: () => {
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
         dropToken();
+        dispatch(userApi.util.resetApiState());
       },
       invalidatesTags: [NameSpace.User],
     }),

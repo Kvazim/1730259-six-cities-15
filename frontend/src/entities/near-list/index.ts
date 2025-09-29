@@ -1,2 +1,2 @@
 export { MemoizedNearList } from './near-list';
-export { getNearPrefetch, selectNearSlice, selectNear } from './model';
+export { getNearPrefetch, selectNearSlice, selectNear, nearApi } from './model';

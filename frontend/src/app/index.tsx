@@ -7,8 +7,6 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import { CLOSE_TIME } from '../shared/lib/const/const';
 import { appStore } from './app-store';
 
-// store.dispatch(fetchOffersAction());
-
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
