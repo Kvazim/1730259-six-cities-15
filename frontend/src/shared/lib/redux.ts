@@ -6,7 +6,8 @@ import {
   createListenerMiddleware,
   createSelector,
   ThunkAction,
-  UnknownAction
+  UnknownAction,
+  addListener
 } from '@reduxjs/toolkit';
 import { appStore, extraArgument } from '../../app/app-store';
 import { useDispatch, useSelector, useStore } from 'react-redux';
@@ -48,6 +49,14 @@ export const createAppAsynkThunk = createAsyncThunk.withTypes<{
   dispatch: AppDispatch;
   extra: typeof extraArgument;
 }>();
+
+export const startAppListening = listenerMiddleware.startListening.withTypes<
+  AppState,
+  AppDispatch,
+  typeof extraArgument
+ >();
+
+export const addAppListener = addListener.withTypes<AppState, AppDispatch, typeof extraArgument>();
 
 export const addAppMiddleware = addMiddleware.withTypes<MiddlewareApiConfig>();
 export const withAppMiddleware = withMiddleware.withTypes<MiddlewareApiConfig>();
