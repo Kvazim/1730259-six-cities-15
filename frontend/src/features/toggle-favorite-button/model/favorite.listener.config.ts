@@ -1,5 +1,5 @@
 import { nearApi, placesByIdApi } from '../../../entities';
-import { startAppListening } from '../../../shared/lib/redux';
+import { AppDispatch, AppState } from '../../../shared/lib/redux';
 import { Offer } from '../../../shared/types/offers';
 import { favoritButtonApi } from './favorit-button-api';
 
@@ -21,7 +21,21 @@ interface ApiQueries {
   } | undefined;
 }
 
-export const favoriteListeners = () => startAppListening({
+export const favoriteListenerConfig: {
+  matcher: typeof favoritButtonApi.endpoints.toggleFavorite.matchFulfilled;
+  effect: (
+    action: {
+      payload: {
+        id: Offer['id'];
+        isFavorite: Offer['isFavorite'];
+      };
+    },
+    listenerApi: {
+      dispatch: AppDispatch;
+      getState: () => AppState;
+    }
+  ) => void;
+} = {
   matcher: favoritButtonApi.endpoints.toggleFavorite.matchFulfilled,
   effect: ({ payload }, { dispatch, getState }) => {
 
@@ -52,5 +66,5 @@ export const favoriteListeners = () => startAppListening({
       }
     });
   },
-});
+};
 

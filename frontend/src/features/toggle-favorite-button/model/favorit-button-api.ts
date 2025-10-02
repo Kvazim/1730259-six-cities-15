@@ -1,8 +1,8 @@
 import { baseApi } from '../../../shared/lib/api/base-api';
 import { APIRoute } from '../../../shared/lib/const/const';
-import { addAppMiddleware, reducer } from '../../../shared/lib/redux';
+import { addAppMiddleware, reducer, startAppListening } from '../../../shared/lib/redux';
 import { FullOffer } from '../../../shared/types/offers';
-import { favoriteListeners } from './favorite.listener';
+import { favoriteListenerConfig } from './favorite.listener.config.ts';
 
 export const favoritButtonApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -19,6 +19,6 @@ reducer.inject(favoritButtonApi);
 
 addAppMiddleware(favoritButtonApi.middleware);
 
-favoriteListeners();
+startAppListening(favoriteListenerConfig);
 
 export const { useToggleFavoriteMutation } = favoritButtonApi;
