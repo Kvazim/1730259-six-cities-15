@@ -15,6 +15,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: './tsconfig.json'
   },
+  include: ['./tsconfig.json'],
   settings: { react: { version: 'detect' } },
   plugins: ['react-refresh'],
   rules: {

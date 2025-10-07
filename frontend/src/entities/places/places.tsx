@@ -1,6 +1,6 @@
 import { memo, ReactNode, useEffect } from 'react';
 import MemoizedOfferFeatures from '../../shared/ui/offer-features/offer-features';
-import MemoizedOfferGalery from '../../shared/ui/offer-galery/offer-galery';
+import { MemoizedOfferGalery } from '../../shared/ui/offer-galery/offer-galery';
 import MemoizedOfferHost from '../../shared/ui/offer-host/offer-host';
 import MemoizedOfferInside from '../../shared/ui/offer-inside/offer-inside';
 import MemoizedOfferName from '../../shared/ui/offer-name/offer-name';

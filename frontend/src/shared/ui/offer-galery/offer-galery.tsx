@@ -23,4 +23,4 @@ function OfferGalery({images}: OfferGaleryProps): JSX.Element {
 
 const MemoizedOfferGalery = memo(OfferGalery);
 
-export default MemoizedOfferGalery;
+export { MemoizedOfferGalery };

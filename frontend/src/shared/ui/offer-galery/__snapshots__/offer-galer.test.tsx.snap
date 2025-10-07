@@ -1,0 +1,68 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`OfferGalery > should render correctly 1`] = `
+<div>
+  <div
+    class="offer__gallery-container container"
+  >
+    <div
+      class="offer__gallery"
+    >
+      <div
+        class="offer__image-wrapper"
+      >
+        <img
+          alt="Photo studio"
+          class="offer__image"
+          src="img1"
+        />
+      </div>
+      <div
+        class="offer__image-wrapper"
+      >
+        <img
+          alt="Photo studio"
+          class="offer__image"
+          src="img2"
+        />
+      </div>
+      <div
+        class="offer__image-wrapper"
+      >
+        <img
+          alt="Photo studio"
+          class="offer__image"
+          src="img3"
+        />
+      </div>
+      <div
+        class="offer__image-wrapper"
+      >
+        <img
+          alt="Photo studio"
+          class="offer__image"
+          src="img4"
+        />
+      </div>
+      <div
+        class="offer__image-wrapper"
+      >
+        <img
+          alt="Photo studio"
+          class="offer__image"
+          src="img5"
+        />
+      </div>
+      <div
+        class="offer__image-wrapper"
+      >
+        <img
+          alt="Photo studio"
+          class="offer__image"
+          src="img6"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
