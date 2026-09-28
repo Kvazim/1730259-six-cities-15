@@ -1,9 +1,9 @@
 import { Helmet } from 'react-helmet-async';
 import './style.css';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { AppRoute } from '../../const';
 
-function PageNotFound(): JSX.Element {
+function PageNotFound() {
   return (
     <div className="body">
       <Helmet>

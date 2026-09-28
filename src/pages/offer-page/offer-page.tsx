@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import MemoizedMap from '../../components/map/map';
 import MemoizedPlaceCard from '../../components/place-card/place-card';
 import MemoizedPremium from '../../components/premium/premium';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router';
 import { AppRoute, DEFAULT_ZERO, MAX_NIAR_OFFER, Status } from '../../const';
 import MemoizedOfferReviews from '../../components/offer-reviews/offer-reviews';
 import MemoizedOfferHost from '../../components/offer-host/offer-host';
@@ -14,15 +14,24 @@ import MemoizedOfferRating from '../../components/offer-rating/offer-rating';
 import MemoizedOfferName from '../../components/offer-name/offer-name';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { memo, useEffect } from 'react';
-import { fetchNearByOffersAction, fetchOfferIdAction, fetchOfferReviewsAction } from '../../store/api-actions';
+import {
+  fetchNearByOffersAction,
+  fetchOfferIdAction,
+  fetchOfferReviewsAction,
+} from '../../store/api-actions';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 import { getDataToMap } from '../../utils/utils';
-import { getFullOffer, getFullOfferLoadingStatus, getNearByOffers, getNearByOffersLoadingStatus } from '../../store/offer-process/offer-process.selectors';
+import {
+  getFullOffer,
+  getFullOfferLoadingStatus,
+  getNearByOffers,
+  getNearByOffersLoadingStatus,
+} from '../../store/offer-process/offer-process.selectors';
 import { setCurrentOfferId } from '../../store/offer-process/offer-process.slice';
 import { getReviewsLoadingStatus } from '../../store/review-process/review-process.selectors';
-import { Offer } from '../../types/offers';
+import type { Offer } from '../../types/offers';
 
-function OfferPage(): JSX.Element {
+function OfferPage() {
   const { id } = useParams<{ id: Offer['id'] }>();
   const dispatch = useAppDispatch();
   const isLoadingFullOffer = useAppSelector(getFullOfferLoadingStatus);
@@ -36,16 +45,19 @@ function OfferPage(): JSX.Element {
       return;
     }
 
-    dispatch(setCurrentOfferId(id));
-    dispatch(fetchOfferIdAction(id));
-    dispatch(fetchOfferReviewsAction(id));
-    dispatch(fetchNearByOffersAction(id));
-  },[dispatch, id]);
+    void dispatch(setCurrentOfferId(id));
+    void dispatch(fetchOfferIdAction(id));
+    void dispatch(fetchOfferReviewsAction(id));
+    void dispatch(fetchNearByOffersAction(id));
+  }, [dispatch, id]);
 
   if (
-    (isLoadingFullOffer === Status.Idle || isLoadingFullOffer === Status.Loading) ||
-    (isReviewLoading === Status.Idle || isReviewLoading === Status.Loading) ||
-    (isLoadingNearByOffers === Status.Idle || isLoadingNearByOffers === Status.Loading)
+    isLoadingFullOffer === Status.Idle ||
+    isLoadingFullOffer === Status.Loading ||
+    isReviewLoading === Status.Idle ||
+    isReviewLoading === Status.Loading ||
+    isLoadingNearByOffers === Status.Idle ||
+    isLoadingNearByOffers === Status.Loading
   ) {
     return <LoadingScreen />;
   }
@@ -55,13 +67,25 @@ function OfferPage(): JSX.Element {
   }
 
   const {
-    images, isPremium, title,
-    isFavorite, rating, type,
-    bedrooms, maxAdults, price,
-    goods, host, description,
+    images,
+    isPremium,
+    title,
+    isFavorite,
+    rating,
+    type,
+    bedrooms,
+    maxAdults,
+    price,
+    goods,
+    host,
+    description,
   } = offer;
 
-  const mapItems = getDataToMap(nearByOffers).concat({id: offer.id, city: offer.city, location: offer.location});
+  const mapItems = getDataToMap(nearByOffers).concat({
+    id: offer.id,
+    city: offer.city,
+    location: offer.location,
+  });
 
   return (
     <main className="page__main page__main--offer">
@@ -72,7 +96,7 @@ function OfferPage(): JSX.Element {
         <MemoizedOfferGalery images={images} />
         <div className="offer__container container">
           <div className="offer__wrapper">
-            {isPremium && <MemoizedPremium className='offer__mark' />}
+            {isPremium && <MemoizedPremium className="offer__mark" />}
             {id && <MemoizedOfferName id={id} title={title} isFavorite={isFavorite} />}
             <MemoizedOfferRating rating={rating} />
             <MemoizedOfferFeatures type={type} bedrooms={bedrooms} maxAdults={maxAdults} />
@@ -82,18 +106,20 @@ function OfferPage(): JSX.Element {
             {id && <MemoizedOfferReviews id={id} />}
           </div>
         </div>
-        <MemoizedMap className='offer' offers={mapItems} />
+        <MemoizedMap className="offer" offers={mapItems} />
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <div className="near-places__list places__list">
-            {
-              nearByOffers.length > DEFAULT_ZERO &&
-              nearByOffers.map(
-                (nearByOffer) => <MemoizedPlaceCard key={nearByOffer.id} className='near-places' offer={nearByOffer} />
-              )
-            }
+            {nearByOffers.length > DEFAULT_ZERO &&
+              nearByOffers.map((nearByOffer) => (
+                <MemoizedPlaceCard
+                  key={nearByOffer.id}
+                  className="near-places"
+                  offer={nearByOffer}
+                />
+              ))}
           </div>
         </section>
       </div>

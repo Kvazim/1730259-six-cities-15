@@ -1,7 +1,7 @@
 import MemoizedLogin from '../../pages/login/login';
 import { HelmetProvider } from 'react-helmet-async';
 import MemoizedMain from '../../pages/main/main';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router';
 import { AppRoute, AuthorizationStatus, Status } from '../../const';
 import Layout from '../layout/layout';
 import PageNotFound from '../../pages/page-not-found/page-not-found';
@@ -18,27 +18,23 @@ import { fetchFavoriteOffersAction, fetchOffersAction } from '../../store/api-ac
 import ErrorLoadSreen from '../error-load-screen/error-load-screen';
 import MemoizedOfferPage from '../../pages/offer-page/offer-page';
 
-function App(): JSX.Element {
+function App() {
   const dispatch = useAppDispatch();
   const isAuthChecked = useAppSelector(getAuthorizationStatus);
   const isDataLoading = useAppSelector(getOffersLoadingStatus);
 
-  useEffect(() => {
+  useEffect((): void => {
     if (isAuthChecked === AuthorizationStatus.Auth) {
-      dispatch(fetchFavoriteOffersAction());
+      void dispatch(fetchFavoriteOffersAction());
     }
   }, [dispatch, isAuthChecked]);
 
   if (isAuthChecked === AuthorizationStatus.Unknown || isDataLoading === Status.Loading) {
-    return (
-      <LoadingScreen />
-    );
+    return <LoadingScreen />;
   }
 
   if (isDataLoading === Status.Failed) {
-    return (
-      <ErrorLoadSreen onButtonDispatchClick={fetchOffersAction} />
-    );
+    return <ErrorLoadSreen onButtonDispatchClick={fetchOffersAction} />;
   }
 
   return (

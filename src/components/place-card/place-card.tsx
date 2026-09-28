@@ -1,24 +1,24 @@
 import Premium from '../premium/premium';
 import MemoizedFavoritButton from '../favorit-button/favorit-button';
 import MemoizedRaitingStars from '../raiting-stars/raiting-stars';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router';
 import { AppRoute } from '../../const';
-import { Offer } from '../../types/offers';
+import type { Offer } from '../../types/offers';
 import { capitalize, mouseEvents } from '../../utils/utils';
 import { memo } from 'react';
 import { useAppDispatch } from '../../hooks';
-import { MyLocation } from '../../types/my-location';
+import type { MyLocation } from '../../types/my-location';
 import { setCurrentOfferId } from '../../store/offer-process/offer-process.slice';
 
-type PlaceCardProps ={
+interface PlaceCardProps {
   className: string;
   offer: Offer;
   isSmall?: boolean;
 }
 
-function PlaceCard({className, offer, isSmall}: PlaceCardProps): JSX.Element {
-  const {id, isPremium, previewImage, price, isFavorite, rating, title, type} = offer;
-  const {pathname} = useLocation() as MyLocation;
+function PlaceCard({ className, offer, isSmall }: PlaceCardProps) {
+  const { id, isPremium, previewImage, price, isFavorite, rating, title, type } = offer;
+  const { pathname } = useLocation() as MyLocation;
   const dispatch = useAppDispatch();
 
   const handleMouseEvent = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -37,11 +37,15 @@ function PlaceCard({className, offer, isSmall}: PlaceCardProps): JSX.Element {
     >
       {isPremium ? <Premium className={'place-card__mark'} /> : null}
 
-      <div
-        className={`${className}__image-wrapper place-card__image-wrapper`}
-      >
+      <div className={`${className}__image-wrapper place-card__image-wrapper`}>
         <Link to={cardURL}>
-          <img className="place-card__image" src={previewImage} width={isSmall ? '150' : '260'} height={isSmall ? '110' : '200'} alt="Place image" />
+          <img
+            className="place-card__image"
+            src={previewImage}
+            width={isSmall ? '150' : '260'}
+            height={isSmall ? '110' : '200'}
+            alt={title}
+          />
         </Link>
       </div>
       <div className="place-card__info">
@@ -50,10 +54,16 @@ function PlaceCard({className, offer, isSmall}: PlaceCardProps): JSX.Element {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <MemoizedFavoritButton className='place-card' iconWidth='18' iconHeight='19' isFavorite={isFavorite} id={id} />
+          <MemoizedFavoritButton
+            className="place-card"
+            iconWidth="18"
+            iconHeight="19"
+            isFavorite={isFavorite}
+            id={id}
+          />
         </div>
         <div className="place-card__rating rating">
-          <MemoizedRaitingStars className='place-card__stars' rating={rating} />
+          <MemoizedRaitingStars className="place-card__stars" rating={rating} />
         </div>
         <h2 className="place-card__name">
           <Link to={cardURL}>{title}</Link>
