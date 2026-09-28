@@ -3,11 +3,12 @@
   "version": "14.0.0",
   "type": "module",
   "scripts": {
-    "start": "vite --open",
-    "build": "tsc && vite build",
-    "lint": "eslint src --ext ts,tsx",
-    "preview": "vite preview",
-    "test": "vitest --passWithNoTests"
+    "start": "vp dev --open",
+    "build": "tsc && vp build",
+    "lint": "vp lint src",
+    "preview": "vp preview",
+    "test": "vp test --passWithNoTests",
+    "prepare": "vp config"
   },
   "dependencies": {
     "@reduxjs/toolkit": "1.9.7",
@@ -30,22 +31,24 @@
     "@testing-library/user-event": "14.5.1",
     "@types/faker": "5.5.9",
     "@types/leaflet": "1.9.3",
+    "@types/node": "^26.6.3",
     "@types/react": "18.2.25",
     "@types/react-dom": "18.2.11",
     "@types/react-redux": "7.1.27",
     "@types/testing-library__jest-dom": "5.14.9",
     "@vitejs/plugin-react": "^6.1.1",
     "axios-mock-adapter": "1.22.0",
-    "eslint": "^10.11.0",
-    "eslint-config-htmlacademy": "^11.0.0",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-react-refresh": "^0.5.7",
     "faker": "5.5.3",
+    "jiti": "^2.7.0",
     "jsdom": "22.1.0",
-    "typescript": "5.2.2",
-    "typescript-eslint": "^8.70.1",
-    "vite": "^8.3.1",
-    "vitest": "^5.0.2"
+    "typescript": "^6.0.3",
+    "vite": "npm:@voidzero-dev/vite-plus-core@0.3.0",
+    "vite-plus": "0.3.0",
+    "vitest": "4.1.11"
+  },
+  "overrides": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@0.3.0",
+    "vitest": "4.1.11"
   },
   "browserslist": {
     "production": [
@@ -58,5 +61,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "npm",
+      "version": "12.1.0",
+      "onFail": "download"
+    }
   }
 }
